@@ -5,8 +5,18 @@ use ieee.numeric_std.all;
 entity sample_tb is
 end;
 
--- コメント
-
+-- そもそもテストベンチって何？
+-- → テストベンチは、合成することが想定されている回路とは別のものです。
+--    回路をシミュレーターでテストするには、その回路の
+--    「外側」にあたるクロックや入力をどのように与えるかを
+--    決める必要があります。それを書いたものがテストベンチです。
+--    テストベンチ自体は合成することが想定されていないので、
+--    回路本体では使わないVHDLの命令を使ってもOKです。
+--    例. wait命令、ファイル入出力
+--
+--    このsample_tbは、sampleという回路が正常に動作しているかを
+--    シミュレーターでテストするために、クロックと入力を生成
+--    している部品ということになります。
 architecture simulational of sample_tb is
   -- ここではコンポーネントを利用するarchitectureの中で宣言しているが、
   -- 利用するときにいちいちcomponentを再度宣言するのは手間なので、
@@ -45,6 +55,7 @@ begin
     wait for 7.5 ns;
   end process;
 
+  -- 適当な入力信号を生成
   gensignal : process(simclk)
   begin
     if rising_edge(simclk) then
